@@ -3,9 +3,14 @@
 * This is just a basic bot for fun and to play with
 * Enjoy 
 '''
+import random
 from flask import Flask, request
+from pymessenger.bot import Bot
 
 app = Flask(__name__)
+ACCESS_TOKEN = 'ACCESS_TOKEN'
+VERIFY_TOKEN = 'VERIFY_TOKEN'
+bot = Bot(ACCESS_TOKEN)
 
 @app.route('/', methods=['GET', 'POST'])
 
@@ -47,6 +52,11 @@ def verify_fb_token(token_sent):
     if token_sent == VERIFY_TOKEN:
         return request.args.get("hub.challenge")
     return "Invalid Verification token"
+
+def send_message(recepient_id, response):
+    #sends user the text message provided via input response parameter
+    bot.send_text_message(recepient_id, response)
+    return "success"
 
 if __name__ == '__main__':
     app.run()
