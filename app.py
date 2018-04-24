@@ -30,12 +30,23 @@ def receive_Message():
                     #Facebook Messenger ID for user so we know where to send response back to
                     recepient_id = message['sender']['id']
                     if message['message'].get('text'):
-                        response_sent_text = get_message():
+                        response_sent_text = get_message()
                         send_message(recepient_id, response_sent_text)
                     #If a user send a photo, Video of a media file
                     if message['message'].get('attachments'):
                         response_sent_nontext = get_message()
                         send_message(recipient_id, response_sent_nontext)
     return "Message processed"
+
+   
+def verify_fb_token(token_sent):
+    '''
+    I will take token sent by facebook and verify it matches the verify token you sent
+    if they match, allow the request, else return an error 
+    '''
+    if token_sent == VERIFY_TOKEN:
+        return request.args.get("hub.challenge")
+    return "Invalid Verification token"
+
 if __name__ == '__main__':
     app.run()
